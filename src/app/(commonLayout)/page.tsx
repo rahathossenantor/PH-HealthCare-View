@@ -1,7 +1,10 @@
+import Hero from "@/components/sections/Hero";
+
 const Home = () => {
   return (
-    <div>
-    </div>
+    <>
+      <Hero />
+    </>
   );
 };
 
