@@ -39,10 +39,10 @@ const WhyUs = () => {
     return (
         <Container sx={{ py: 5 }}>
             <Box sx={{ textAlign: "center" }}>
-                <Typography variant="h6" fontWeight={700} color="primary">Why Us?</Typography>
+                <Typography variant="h6" fontWeight={700} color="primary">Why Us</Typography>
                 <Typography variant="h4" fontWeight={700}>Why Choose Us?</Typography>
             </Box>
-            <Grid container spacing={2} mt={2} sx={{ alignItems: "center" }}>
+            <Grid container spacing={2} mt={2} sx={{ alignItems: "center", justifyContent: "center" }}>
                 <Grid item md={6}>
                     <Box sx={{
                         ...boxDesign,
@@ -89,7 +89,13 @@ const WhyUs = () => {
                     </Box>
                 </Grid>
                 <Grid item md={6}>
-                    <Image src={chooseUsImg} alt="choose-us" />
+                    <Box sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}>
+                        <Image src={chooseUsImg} width={400} alt="choose-us" />
+                    </Box>
                 </Grid>
             </Grid>
         </Container>
