@@ -61,7 +61,7 @@ const Specialties = async () => {
                             key={specialty.id}
                             sx={{
                                 flex: 1,
-                                padding: "10px 0",
+                                padding: "30px 0",
                                 border: "1px solid #ccc",
                                 backgroundColor: "rgba(245, 245, 245, 1)",
                                 borderRadius: 2,
