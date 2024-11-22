@@ -1,9 +1,35 @@
+"use client";
+
 import { Box, Button, Container, Grid, Stack, TextField, Typography } from "@mui/material";
 import assets from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
+import loginUser from "@/services/actions/loginUser";
+import { storeUserToken } from "@/services/auth.services";
+
+export type TLoginInputs = {
+    email: string;
+    password: string;
+};
 
 const Login = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<TLoginInputs>()
+    const onSubmit: SubmitHandler<TLoginInputs> = async (values) => {
+        const res = await loginUser(values);
+        console.log(res);
+
+        if (res?.data?.accessToken) {
+            storeUserToken(res.data.accessToken);
+            toast.success(res.message);
+        };
+    };
+
     return (
         <Container sx={{ py: 5 }}>
             <Stack sx={{
@@ -29,16 +55,16 @@ const Login = () => {
                             <Typography variant="h5" fontWeight={700}>Login</Typography>
                         </Box>
                     </Stack>
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container spacing={2} sx={{ my: 1 }}>
                             <Grid item md={6}>
-                                <TextField label="Email" variant="outlined" size="small" type="email" fullWidth />
+                                <TextField label="Email" variant="outlined" size="small" type="email" fullWidth {...register("email")} />
                             </Grid>
                             <Grid item md={6}>
-                                <TextField label="Password" variant="outlined" size="small" type="password" fullWidth />
+                                <TextField label="Password" variant="outlined" size="small" type="password" fullWidth {...register("password")} />
                             </Grid>
                             <Grid item md={12}>
-                                <Button variant="contained" fullWidth>Login</Button>
+                                <Button type="submit" variant="contained" fullWidth>Login</Button>
                             </Grid>
                         </Grid>
                         <Stack direction="row" justifyContent="space-between">
