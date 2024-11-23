@@ -9,6 +9,8 @@ import createFormData from "@/utils/createFormData";
 import registerPatients from "@/services/actions/registerPatients";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import loginUser from "@/services/actions/loginUser";
+import { storeUserToken } from "@/services/auth.services";
 
 type Inputs = {
     password: string;
@@ -34,7 +36,15 @@ const Register = () => {
 
         if (res?.data?.id) {
             toast.success(res.message);
-            router.push("/login");
+
+            const user = await loginUser({
+                email: res?.data?.email,
+                password: values.password
+            });
+            if (user?.data?.accessToken) {
+                storeUserToken(user.data.accessToken);
+                router.push("/");
+            };
         };
     };
 
