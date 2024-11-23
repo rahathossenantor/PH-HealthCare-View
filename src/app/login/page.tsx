@@ -4,26 +4,18 @@ import { Box, Button, Container, Grid, Stack, TextField, Typography } from "@mui
 import assets from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import loginUser from "@/services/actions/loginUser";
 import { storeUserToken } from "@/services/auth.services";
 import { useRouter } from "next/navigation";
-
-export type TLoginInputs = {
-    email: string;
-    password: string;
-};
+import FormWrapper from "@/components/sections/FormWrapper";
+import InputWrapper from "@/components/sections/InputWrapper";
 
 const Login = () => {
     const router = useRouter();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<TLoginInputs>()
-    const onSubmit: SubmitHandler<TLoginInputs> = async (values) => {
+    const onSubmit = async (values: FieldValues) => {
         const res = await loginUser(values);
 
         if (res?.data?.accessToken) {
@@ -58,13 +50,21 @@ const Login = () => {
                             <Typography variant="h5" fontWeight={700}>Login</Typography>
                         </Box>
                     </Stack>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <FormWrapper onSubmit={onSubmit}>
                         <Grid container spacing={2} sx={{ my: 1 }}>
                             <Grid item md={6}>
-                                <TextField label="Email" variant="outlined" size="small" type="email" fullWidth {...register("email")} />
+                                <InputWrapper
+                                    name="email"
+                                    label="Email"
+                                    type="email"
+                                />
                             </Grid>
                             <Grid item md={6}>
-                                <TextField label="Password" variant="outlined" size="small" type="password" fullWidth {...register("password")} />
+                                <InputWrapper
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                />
                             </Grid>
                             <Grid item md={12}>
                                 <Button type="submit" variant="contained" fullWidth>Login</Button>
@@ -74,7 +74,7 @@ const Login = () => {
                             <Typography component="p" sx={{ mt: 2 }}>Forgot password? <Link href="" className="text-blue-600">Reset Here</Link> </Typography>
                             <Typography component="p" sx={{ mt: 2 }}>Don&apos;t have an account? <Link href="/register" className="text-blue-600">Register</Link> </Typography>
                         </Stack>
-                    </form>
+                    </FormWrapper>
                 </Box>
             </Stack>
         </Container>
