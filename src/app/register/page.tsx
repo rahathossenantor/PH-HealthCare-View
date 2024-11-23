@@ -1,36 +1,23 @@
 "use client";
 
-import { Box, Button, Container, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import assets from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import createFormData from "@/utils/createFormData";
 import registerPatients from "@/services/actions/registerPatients";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import loginUser from "@/services/actions/loginUser";
 import { storeUserToken } from "@/services/auth.services";
-
-type Inputs = {
-    password: string;
-    patient: {
-        name: string;
-        email: string;
-        contactNumber: string;
-        address: string;
-    };
-};
+import FormWrapper from "@/components/sections/FormWrapper";
+import InputWrapper from "@/components/sections/InputWrapper";
 
 const Register = () => {
     const router = useRouter();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<Inputs>()
-    const onSubmit: SubmitHandler<Inputs> = async (values) => {
+    const onSubmit = async (values: FieldValues) => {
         const data = createFormData(values);
         const res = await registerPatients(data);
 
@@ -73,29 +60,47 @@ const Register = () => {
                             <Typography variant="h5" fontWeight={700}>Patient Register</Typography>
                         </Box>
                     </Stack>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <FormWrapper onSubmit={onSubmit}>
                         <Grid container spacing={2} sx={{ my: 1 }}>
                             <Grid item md={12}>
-                                <TextField label="Full Name" variant="outlined" size="small" type="text" fullWidth {...register("patient.name")} />
+                                <InputWrapper
+                                    label="Full Name"
+                                    name="patient.name"
+                                />
                             </Grid>
                             <Grid item md={6}>
-                                <TextField label="Email" variant="outlined" size="small" type="email" fullWidth {...register("patient.email")} />
+                                <InputWrapper
+                                    label="Email"
+                                    type="email"
+                                    name="patient.email"
+                                />
                             </Grid>
                             <Grid item md={6}>
-                                <TextField label="Password" variant="outlined" size="small" type="password" fullWidth {...register("password")} />
+                                <InputWrapper
+                                    label="Password"
+                                    type="password"
+                                    name="password"
+                                />
                             </Grid>
                             <Grid item md={6}>
-                                <TextField label="Contact Number" variant="outlined" size="small" type="tel" fullWidth {...register("patient.contactNumber")} />
+                                <InputWrapper
+                                    label="Contact Number"
+                                    type="tel"
+                                    name="patient.contactNumber"
+                                />
                             </Grid>
                             <Grid item md={6}>
-                                <TextField label="Address" variant="outlined" size="small" type="text" fullWidth {...register("patient.address")} />
+                                <InputWrapper
+                                    label="Address"
+                                    name="patient.address"
+                                />
                             </Grid>
                             <Grid item md={12}>
                                 <Button type="submit" variant="contained" fullWidth>Register</Button>
                             </Grid>
                         </Grid>
                         <Typography component="p" sx={{ mt: 2 }}>Already have an account? <Link href="/login" className="text-blue-600">Login</Link> </Typography>
-                    </form>
+                    </FormWrapper>
                 </Box>
             </Stack>
         </Container>

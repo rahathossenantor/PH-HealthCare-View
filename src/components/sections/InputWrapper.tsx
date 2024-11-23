@@ -25,6 +25,7 @@ const InputWrapper = ({
                 <TextField
                     {...field}
                     label={label}
+                    placeholder={label}
                     variant="outlined"
                     size="small"
                     type={type}
