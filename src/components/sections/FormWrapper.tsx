@@ -5,8 +5,22 @@ type TFormProps = {
     onSubmit: SubmitHandler<FieldValues>;
 };
 
-const FormWrapper = ({ children, onSubmit }: TFormProps) => {
-    const methods = useForm();
+type TFormConfig = {
+    resolver?: any;
+    defaultValues?: Record<string, any>;
+};
+
+const FormWrapper = ({ children, onSubmit, resolver, defaultValues }: TFormProps & TFormConfig) => {
+    const formConfig: TFormConfig = {};
+    if (resolver) {
+        formConfig["resolver"] = resolver;
+    };
+
+    if (defaultValues) {
+        formConfig["defaultValues"] = defaultValues;
+    };
+
+    const methods = useForm(formConfig);
     const { handleSubmit, reset } = methods;
 
     return (

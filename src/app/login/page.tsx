@@ -11,6 +11,13 @@ import { storeUserToken } from "@/services/auth.services";
 import { useRouter } from "next/navigation";
 import FormWrapper from "@/components/sections/FormWrapper";
 import InputWrapper from "@/components/sections/InputWrapper";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const loginSchema = z.object({
+    email: z.string().email("Invalid email address!"),
+    password: z.string().min(6, "Password must be at least 6 characters")
+});
 
 const Login = () => {
     const router = useRouter();
@@ -22,6 +29,8 @@ const Login = () => {
             storeUserToken(res.data.accessToken);
             toast.success(res.message);
             router.push("/");
+        } else {
+            toast.error(res.message);
         };
     };
 
@@ -50,7 +59,14 @@ const Login = () => {
                             <Typography variant="h5" fontWeight={700}>Login</Typography>
                         </Box>
                     </Stack>
-                    <FormWrapper onSubmit={onSubmit}>
+                    <FormWrapper
+                        onSubmit={onSubmit}
+                        resolver={zodResolver(loginSchema)}
+                        defaultValues={{
+                            email: "",
+                            password: ""
+                        }}
+                    >
                         <Grid container spacing={2} sx={{ my: 1 }}>
                             <Grid item md={6}>
                                 <InputWrapper

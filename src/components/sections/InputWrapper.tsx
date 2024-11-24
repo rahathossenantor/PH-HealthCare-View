@@ -3,6 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 
 type TInputWrapperProps = {
     name: string;
+    required?: boolean;
     label: string;
     type?: string;
     fullWidth?: boolean;
@@ -21,7 +22,7 @@ const InputWrapper = ({
         <Controller
             control={control}
             name={name}
-            render={({ field }) => (
+            render={({ field, fieldState: { error } }) => (
                 <TextField
                     {...field}
                     label={label}
@@ -30,6 +31,8 @@ const InputWrapper = ({
                     size="small"
                     type={type}
                     fullWidth={fullWidth}
+                    error={!!error?.message}
+                    helperText={error?.message}
                 />
             )}
         />

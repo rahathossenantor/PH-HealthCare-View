@@ -32,6 +32,8 @@ const Register = () => {
                 storeUserToken(user.data.accessToken);
                 router.push("/");
             };
+        } else {
+            toast.error(res.message);
         };
     };
 
