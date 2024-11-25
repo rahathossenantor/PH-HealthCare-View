@@ -13,6 +13,18 @@ import loginUser from "@/services/actions/loginUser";
 import { storeUserToken } from "@/services/auth.services";
 import FormWrapper from "@/components/sections/FormWrapper";
 import InputWrapper from "@/components/sections/InputWrapper";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const registerSchema = z.object({
+    password: z.string().min(6, "Password must be at least 6 characters!"),
+    patient: z.object({
+        email: z.string().email("Invalid email address!"),
+        name: z.string().min(2, "Please provide a valid name!"),
+        contactNumber: z.string().min(11, "Please provide a valid contact number!"),
+        address: z.string().min(2, "Please provide a valid address!")
+    })
+});
 
 const Register = () => {
     const router = useRouter();
@@ -62,7 +74,19 @@ const Register = () => {
                             <Typography variant="h5" fontWeight={700}>Patient Register</Typography>
                         </Box>
                     </Stack>
-                    <FormWrapper onSubmit={onSubmit}>
+                    <FormWrapper
+                        onSubmit={onSubmit}
+                        resolver={zodResolver(registerSchema)}
+                        defaultValues={{
+                            password: "",
+                            patient: {
+                                email: "",
+                                name: "",
+                                contactNumber: "",
+                                address: ""
+                            }
+                        }}
+                    >
                         <Grid container spacing={2} sx={{ my: 1 }}>
                             <Grid item md={12}>
                                 <InputWrapper
