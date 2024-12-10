@@ -1,25 +1,29 @@
-import axios from "axios";
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import type { AxiosRequestConfig, AxiosError } from "axios";
+import axiosInstance from "./axiosInstance";
 
-const axiosBaseQuery = ({ baseUrl }: { baseUrl: string } = { baseUrl: "" }): BaseQueryFn<
+const axiosBaseQuery = ({ baseUrl }: { baseUrl: string; } = { baseUrl: "" }): BaseQueryFn<
     {
-        url: string
-        method?: AxiosRequestConfig["method"]
-        data?: AxiosRequestConfig["data"]
-        params?: AxiosRequestConfig["params"]
-        headers?: AxiosRequestConfig["headers"]
+        url: string;
+        method?: AxiosRequestConfig["method"];
+        data?: AxiosRequestConfig["data"];
+        params?: AxiosRequestConfig["params"];
+        headers?: AxiosRequestConfig["headers"];
+        contentType?: string;
     },
     unknown,
     unknown
-> => async ({ url, method, data, params, headers }) => {
+> => async ({ url, method, data, params, headers, contentType }) => {
     try {
-        const result = await axios({
+        const result = await axiosInstance({
             url: baseUrl + url,
             method,
             data,
             params,
-            headers
+            headers: {
+                "Content-Type": contentType || "application/json",
+                ...headers,
+            }
         })
         return { data: result.data }
     } catch (axiosError) {
