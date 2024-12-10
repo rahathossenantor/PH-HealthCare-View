@@ -1,1 +1,1 @@
-export type TRole = "super-admin" | "admin" | "doctor" | "patient";
+export type TRole = "super_admin" | "admin" | "doctor" | "patient";

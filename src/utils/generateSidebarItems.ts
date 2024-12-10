@@ -20,7 +20,7 @@ const generateSidebarItems = (role: TRole): TMenuItem[] => {
     const menuItems: TMenuItem[] = [];
 
     switch (role) {
-        case "super-admin":
+        case "super_admin":
             menuItems.push(
                 {
                     title: "Dashboard",
@@ -92,6 +92,11 @@ const generateSidebarItems = (role: TRole): TMenuItem[] => {
 
         case "patient":
             menuItems.push(
+                {
+                    title: "Dashboard",
+                    path: `${role}`,
+                    icon: DashboardIcon,
+                },
                 {
                     title: "Appointments",
                     path: `${role}/appointments`,
