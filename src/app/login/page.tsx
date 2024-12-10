@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address!"),
-    password: z.string().min(6, "Password must be at least 6 characters")
+    password: z.string().min(5, "Password must be at least 5 characters")
 });
 
 const Login = () => {
@@ -28,7 +28,7 @@ const Login = () => {
         if (res?.data?.accessToken) {
             storeUserToken(res.data.accessToken);
             toast.success(res.message);
-            router.push("/");
+            router.push("/dashboard");
         } else {
             toast.error(res.message);
         };

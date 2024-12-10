@@ -42,7 +42,7 @@ const Register = () => {
             });
             if (user?.data?.accessToken) {
                 storeUserToken(user.data.accessToken);
-                router.push("/");
+                router.push("/dashboard");
             };
         } else {
             toast.error(res.message);
