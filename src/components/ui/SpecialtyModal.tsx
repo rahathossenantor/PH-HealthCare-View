@@ -30,6 +30,7 @@ const SpecialtyModal = ({
                 setOpen(false);
             };
         } catch (err: any) {
+            toast.error(err.message);
             console.error(err.message);
         };
     };
