@@ -5,6 +5,8 @@ import Modal from "./Modal";
 import FileUploaderWrapper from "../sections/FileUploaderWrapper";
 import { FieldValues } from "react-hook-form";
 import createFormData from "@/utils/createFormData";
+import { useCreateSpecialtyMutation } from "@/redux/api/specialtiesAPI";
+import { toast } from "sonner";
 
 type TSpecialtyModalProps = {
     open: boolean;
@@ -15,11 +17,18 @@ const SpecialtyModal = ({
     open,
     setOpen,
 }: TSpecialtyModalProps) => {
-    const handleSubmit = (values: FieldValues) => {
+    const [createSpecialty] = useCreateSpecialtyMutation();
+
+    const handleSubmit = async (values: FieldValues) => {
         const formData = createFormData(values);
 
         try {
-            console.log(values);
+            const res = await createSpecialty(formData).unwrap();
+
+            if (res?.id) {
+                toast.success("Specialty created successfully!");
+                setOpen(false);
+            };
         } catch (err: any) {
             console.error(err.message);
         };

@@ -57,7 +57,7 @@ const Specialties = async () => {
                     <Typography component="p" fontSize={18}>Find experienced doctors across all specialties</Typography>
                 </Box>
                 <Stack direction="row" gap={4} py={2}>
-                    {specialties.map((specialty: specialty) => (
+                    {specialties.slice(0, 6).map((specialty: specialty) => (
                         <Box
                             key={specialty.id}
                             sx={{
