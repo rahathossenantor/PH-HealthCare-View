@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { SxProps, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
 type TInputWrapperProps = {
@@ -7,13 +7,15 @@ type TInputWrapperProps = {
     label: string;
     type?: string;
     fullWidth?: boolean;
+    sx?: SxProps;
 };
 
 const InputWrapper = ({
     name,
     label,
     type = "text",
-    fullWidth = true
+    fullWidth = true,
+    sx = {}
 }: TInputWrapperProps
 ) => {
     const { control } = useFormContext();
@@ -33,6 +35,7 @@ const InputWrapper = ({
                     fullWidth={fullWidth}
                     error={!!error?.message}
                     helperText={error?.message}
+                    sx={sx}
                 />
             )}
         />

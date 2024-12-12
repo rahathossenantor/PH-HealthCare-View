@@ -1,12 +1,12 @@
 import * as React from "react";
-import { styled, SxProps } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
+import { TransitionProps } from "@mui/material/transitions";
+import { DialogContent, DialogTitle, SxProps } from "@mui/material";
+import { BootstrapDialog } from "./Modal";
 
-type TModalProps = {
+type TFullScreenDialogProps = {
     children: React.ReactNode;
     title: string;
     open: boolean;
@@ -14,24 +14,22 @@ type TModalProps = {
     sx?: SxProps;
 };
 
-export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    "& .MuiDialogContent-root": {
-        padding: theme.spacing(2),
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<unknown>;
     },
-    "& .MuiDialogActions-root": {
-        padding: theme.spacing(1),
-    },
-}));
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
-const Modal = (
-    {
-        children,
-        title = "",
-        open = false,
-        setOpen,
-        sx = {},
-    }: TModalProps
-) => {
+const FullScreenDialog = ({
+    children,
+    title = "",
+    open = false,
+    setOpen,
+    sx = {},
+}: TFullScreenDialogProps) => {
     const handleClose = () => {
         setOpen(false);
     };
@@ -39,10 +37,12 @@ const Modal = (
     return (
         <React.Fragment>
             <BootstrapDialog
+                fullScreen
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
                 open={open}
-                sx={sx}
+                sx={{ ...sx }}
+                TransitionComponent={Transition}
             >
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
                     {title}
@@ -50,21 +50,19 @@ const Modal = (
                 <IconButton
                     aria-label="close"
                     onClick={handleClose}
-                    sx={(theme) => ({
+                    sx={{
                         position: "absolute",
                         right: 8,
                         top: 8,
-                        color: theme.palette.grey[500],
-                    })}
+                        color: (theme) => theme.palette.grey[500],
+                    }}
                 >
                     <CloseIcon />
                 </IconButton>
-                <DialogContent dividers>
-                    {children}
-                </DialogContent>
+                <DialogContent>{children}</DialogContent>
             </BootstrapDialog>
         </React.Fragment>
     );
 };
 
-export default Modal;
+export default FullScreenDialog;
