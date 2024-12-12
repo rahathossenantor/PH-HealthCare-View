@@ -73,6 +73,7 @@ const Specialties = () => {
                     ? (<DataGrid
                         rows={data}
                         columns={columns}
+                        hideFooter
                         sx={{ border: 0, margin: 4 }}
                     />)
                     : (

@@ -19,8 +19,8 @@ const DoctorDialog = ({ open, setOpen }: TDoctorDialogProps) => {
 
     const defaultValues = {
         doctor: {
-            email: "",
             name: "",
+            email: "",
             contactNumber: "",
             address: "",
             registrationNumber: "",
@@ -36,6 +36,9 @@ const DoctorDialog = ({ open, setOpen }: TDoctorDialogProps) => {
     };
 
     const handleSubmit = async (values: FieldValues) => {
+        values.doctor.experience = Number(values.doctor.experience);
+        values.doctor.appointmentFee = Number(values.doctor.appointmentFee);
+
         const payload = createFormData(values);
 
         try {
