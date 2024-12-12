@@ -6,6 +6,8 @@ import { Button, Grid } from "@mui/material";
 import InputWrapper from "../sections/InputWrapper";
 import InputSelectWrapper from "../sections/InputSelectWrapper";
 import { genders } from "@/constants/global.constants";
+import createFormData from "@/utils/createFormData";
+import { useCreateDoctorMutation } from "@/redux/api/doctorsAPI";
 
 type TDoctorDialogProps = {
     open: boolean;
@@ -13,6 +15,8 @@ type TDoctorDialogProps = {
 };
 
 const DoctorDialog = ({ open, setOpen }: TDoctorDialogProps) => {
+    const [createDoctor] = useCreateDoctorMutation();
+
     const defaultValues = {
         doctor: {
             email: "",
@@ -32,7 +36,14 @@ const DoctorDialog = ({ open, setOpen }: TDoctorDialogProps) => {
     };
 
     const handleSubmit = async (values: FieldValues) => {
+        const payload = createFormData(values);
+
         try {
+            const res = await createDoctor(payload).unwrap();
+            if (res?.id) {
+                toast.success("Doctor created successfully!");
+                setOpen(false);
+            };
         } catch (err: any) {
             toast.error(err.message);
             console.error(err);

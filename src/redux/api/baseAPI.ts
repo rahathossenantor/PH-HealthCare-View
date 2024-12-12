@@ -8,6 +8,7 @@ const baseApi = createApi({
     endpoints: () => ({}),
     tagTypes: [
         "specialties",
+        "doctors",
     ],
 });
 
