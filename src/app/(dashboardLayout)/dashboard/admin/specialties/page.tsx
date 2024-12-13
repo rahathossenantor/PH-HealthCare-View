@@ -10,7 +10,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const Specialties = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const { data, isLoading } = useGetAllSpecialtiesQuery({});
     const [deleteSpecialty] = useDeleteSpecialtyMutation({});
 

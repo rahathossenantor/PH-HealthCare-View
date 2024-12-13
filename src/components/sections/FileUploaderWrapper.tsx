@@ -8,10 +8,12 @@ import { Input } from "@mui/material";
 type TFileUploaderWrapperProps = {
     name: string;
     label?: string;
+    required?: boolean;
+    fullWidth?: boolean;
     sx?: SxProps;
 };
 
-const FileUploaderWrapper = ({ name, label = "", sx = {} }: TFileUploaderWrapperProps) => {
+const FileUploaderWrapper = ({ name, label = "", sx = {}, required = false, fullWidth = true }: TFileUploaderWrapperProps) => {
     const { control } = useFormContext();
 
     return (
@@ -31,6 +33,8 @@ const FileUploaderWrapper = ({ name, label = "", sx = {} }: TFileUploaderWrapper
                         {label || "Upload file"}
                         <Input
                             {...field}
+                            required={required}
+                            fullWidth={fullWidth}
                             onChange={(e) => onChange((e?.target as HTMLInputElement)?.files?.[0])}
                             value={value?.fileName}
                             type={name}
