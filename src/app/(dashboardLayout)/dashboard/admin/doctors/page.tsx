@@ -1,12 +1,13 @@
 "use client";
 
 import DoctorDialog from "@/components/ui/DoctorDialog";
-import { useGetAllDoctorsQuery } from "@/redux/api/doctorsAPI";
+import { useDeleteDoctorMutation, useGetAllDoctorsQuery } from "@/redux/api/doctorsAPI";
 import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import { useDebouncedSearch } from "@/redux/hooks";
+import { toast } from "sonner";
 
 const Doctors = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -19,6 +20,20 @@ const Doctors = () => {
     };
 
     const { data, isLoading } = useGetAllDoctorsQuery(query);
+    const [deleteDoctor] = useDeleteDoctorMutation();
+
+    const handleDelete = async (id: string) => {
+        try {
+            const res = await deleteDoctor(id).unwrap();
+
+            if (res?.id) {
+                toast.success("Doctor deleted successfully!");
+            };
+        } catch (err: any) {
+            toast.error(err.message);
+            console.error(err.message);
+        };
+    };
 
     const columns: GridColDef[] = [
         { field: "name", headerName: "Name", flex: 1 },
@@ -33,7 +48,10 @@ const Doctors = () => {
             headerAlign: "center",
             align: "center",
             renderCell: (params) => (
-                <IconButton aria-label="delete">
+                <IconButton
+                    onClick={() => handleDelete(params.row.id)}
+                    aria-label="delete"
+                >
                     <DeleteIcon />
                 </IconButton>
             )
