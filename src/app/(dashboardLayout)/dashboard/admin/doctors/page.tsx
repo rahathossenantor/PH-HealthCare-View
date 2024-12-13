@@ -6,15 +6,26 @@ import { Box, Button, IconButton, Stack, TextField } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
+import { useDebouncedSearch } from "@/redux/hooks";
 
 const Doctors = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const { data, isLoading } = useGetAllDoctorsQuery({});
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const query: Record<string, any> = {};
+
+    const debouncedSearchTerm = useDebouncedSearch({ searchTerm, delay: 600 });
+    if (debouncedSearchTerm) {
+        query.searchTerm = searchTerm;
+    };
+
+    const { data, isLoading } = useGetAllDoctorsQuery(query);
 
     const columns: GridColDef[] = [
         { field: "name", headerName: "Name", flex: 1 },
         { field: "email", headerName: "Email", flex: 1 },
         { field: "contactNumber", headerName: "Contact No", flex: 1 },
+        { field: "qualification", headerName: "Qualification", flex: 1 },
+        { field: "appointmentFee", headerName: "Fee", flex: 1 },
         {
             field: "action",
             headerName: "Delete",
@@ -37,7 +48,11 @@ const Doctors = () => {
                     open={isDialogOpen}
                     setOpen={setIsDialogOpen}
                 />
-                <TextField size="small" placeholder="Search Specialty" />
+                <TextField
+                    size="small"
+                    placeholder="Search Specialty"
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
             </Stack>
 
             {
