@@ -10,12 +10,18 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Sidebar from "./Sidebar";
+import { useGetMeQuery } from "@/redux/api/usersAPI";
+import { Avatar, Badge, Stack } from "@mui/material";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import AccountMenu from "./AcountMenu";
 
 const drawerWidth = 240;
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
+    const { data, isLoading } = useGetMeQuery({});
+    console.log(data);
 
     const handleDrawerClose = () => {
         setIsClosing(true);
@@ -55,15 +61,35 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Box>
-                        <Typography
-                            variant="h5"
-                            noWrap
-                            component="div"
-                            color="primary.main"
-                        >
-                            Hi Rahat Hossen!
-                        </Typography>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            width: "100%",
+                        }}
+                    >
+                        <Box>
+                            <Typography
+                                variant="h5"
+                                noWrap
+                                component="div"
+                                color="primary.main"
+                            >
+                                {
+                                    !isLoading && `Hi ${data?.name}!`
+                                }
+                            </Typography>
+                        </Box>
+                        <Stack direction="row" gap={2}>
+                            <Badge badgeContent={1} color="primary">
+                                <IconButton sx={{ background: "#ffffff" }}>
+                                    <NotificationsNoneIcon color="action" />
+                                </IconButton>
+                            </Badge>
+                            <Avatar alt={data?.name} src={data?.profilePhoto} />
+                            <AccountMenu />
+                        </Stack>
                     </Box>
                 </Toolbar>
             </AppBar>

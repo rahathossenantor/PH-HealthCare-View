@@ -1,4 +1,4 @@
-"use server";
+// "use server";
 
 import { baseServerApiUrl } from "@/constants/global.constants";
 import { FieldValues } from "react-hook-form";
@@ -9,7 +9,8 @@ const loginUser = async (payload: FieldValues) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
-            cache: "no-store"
+            credentials: "include",
+            // cache: "no-store"
         });
         const data = await res.json();
         return data;
