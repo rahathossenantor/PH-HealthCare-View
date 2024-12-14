@@ -7,6 +7,7 @@ import DatePickerWrapper from "../sections/DatePickerWrapper";
 import TimePickerWrapper from "../sections/TimePickerWrapper";
 import dateFormatter from "@/utils/dateFormatter";
 import timeFormatter from "@/utils/timeFormatter";
+import { useCreateSchedulesMutation } from "@/redux/api/schedulesAPI";
 
 type TScheduleModalProps = {
     open: boolean;
@@ -14,6 +15,8 @@ type TScheduleModalProps = {
 };
 
 const ScheduleModal = ({ open, setOpen }: TScheduleModalProps) => {
+    const [createSchedules] = useCreateSchedulesMutation();
+
     const handleSubmit = async (values: FieldValues) => {
         values.startDate = dateFormatter(values.startDate);
         values.endDate = dateFormatter(values.endDate);
@@ -21,6 +24,11 @@ const ScheduleModal = ({ open, setOpen }: TScheduleModalProps) => {
         values.endTime = timeFormatter(values.endTime);
 
         try {
+            const res = await createSchedules(values).unwrap();
+            if (res?.data?.length) {
+                toast.success("Schedules created successfully");
+                setOpen(false);
+            };
         } catch (err: any) {
             toast.error(err.message);
             console.error(err.message);

@@ -9,6 +9,7 @@ const baseApi = createApi({
     tagTypes: [
         "specialties",
         "doctors",
+        "schedules",
     ],
 });
 
