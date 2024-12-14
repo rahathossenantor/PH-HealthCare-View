@@ -25,7 +25,7 @@ const ScheduleModal = ({ open, setOpen }: TScheduleModalProps) => {
 
         try {
             const res = await createSchedules(values).unwrap();
-            if (res?.data?.length) {
+            if (res?.length) {
                 toast.success("Schedules created successfully");
                 setOpen(false);
             };

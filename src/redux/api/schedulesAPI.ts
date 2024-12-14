@@ -10,9 +10,18 @@ const schedulesApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["schedules"],
         }),
+        getAllSchedules: build.query({
+            query: (args: Record<string, any>) => ({
+                url: "/schedules",
+                method: "GET",
+                params: args
+            }),
+            providesTags: ["schedules"],
+        }),
     }),
 });
 
 export const {
-    useCreateSchedulesMutation
+    useCreateSchedulesMutation,
+    useGetAllSchedulesQuery,
 } = schedulesApi;
