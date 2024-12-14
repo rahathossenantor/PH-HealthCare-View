@@ -8,7 +8,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
 
     if (!isLoggedIn()) {
-        router.push("/login");
+        return router.push("/login");
     };
 
     return (

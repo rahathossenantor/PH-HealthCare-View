@@ -21,7 +21,6 @@ const Dashboard = ({ children }: { children: React.ReactNode }) => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
     const { data, isLoading } = useGetMeQuery({});
-    console.log(data);
 
     const handleDrawerClose = () => {
         setIsClosing(true);

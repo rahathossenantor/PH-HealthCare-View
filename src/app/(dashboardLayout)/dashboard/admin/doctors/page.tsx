@@ -8,6 +8,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import { useDebouncedSearch } from "@/redux/hooks";
 import { toast } from "sonner";
+import Link from "next/link";
+import EditIcon from "@mui/icons-material/Edit";
 
 const Doctors = () => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -42,18 +44,25 @@ const Doctors = () => {
         { field: "qualification", headerName: "Qualification", flex: 1 },
         { field: "appointmentFee", headerName: "Fee", flex: 1 },
         {
-            field: "action",
-            headerName: "Delete",
+            field: "",
+            headerName: "Actions",
             flex: 1,
             headerAlign: "center",
             align: "center",
             renderCell: (params) => (
-                <IconButton
-                    onClick={() => handleDelete(params.row.id)}
-                    aria-label="delete"
-                >
-                    <DeleteIcon />
-                </IconButton>
+                <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+                    <IconButton
+                        onClick={() => handleDelete(params.row.id)}
+                        aria-label="delete"
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                    <Link href={`/dashboard/admin/doctors/edit/${params.row.id}`}>
+                        <IconButton aria-label="edit">
+                            <EditIcon />
+                        </IconButton>
+                    </Link>
+                </Stack>
             )
         },
     ];
@@ -75,11 +84,13 @@ const Doctors = () => {
 
             {
                 !isLoading
-                    ? (<DataGrid
-                        rows={data}
-                        columns={columns}
-                        sx={{ border: 0, margin: 4 }}
-                    />)
+                    ? (
+                        <DataGrid
+                            rows={data}
+                            columns={columns}
+                            sx={{ border: 0, margin: 4 }}
+                        />
+                    )
                     : (
                         <h1>Loading...!</h1>
                     )
