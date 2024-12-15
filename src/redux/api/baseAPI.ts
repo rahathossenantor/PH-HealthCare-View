@@ -10,6 +10,7 @@ const baseApi = createApi({
         "specialties",
         "doctors",
         "schedules",
+        "doctorSchedules",
         "me",
     ],
 });

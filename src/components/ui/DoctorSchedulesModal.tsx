@@ -8,6 +8,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useGetAllSchedulesQuery } from "@/redux/api/schedulesAPI";
 import MultipleSelectInput from "./MultipleSelectInput";
 import { Stack } from "@mui/material";
+import { useCreateDoctorSchedulesMutation } from "@/redux/api/doctorSchedulesAPI";
+import { toast } from "sonner";
 
 type TDoctorSchedulesModalProps = {
     open: boolean;
@@ -29,7 +31,20 @@ const DoctorSchedulesModal = ({ open, setOpen }: TDoctorSchedulesModalProps) => 
 
     const { data, isLoading } = useGetAllSchedulesQuery(query);
 
-    const handleSubmit = async () => { };
+    const [createDoctorSchedules, { isLoading: isDoctorSchedulesCreateLoading }] = useCreateDoctorSchedulesMutation();
+
+    const handleSubmit = async () => {
+        try {
+            const res = await createDoctorSchedules({ scheduleIds: selectedScheduleIds }).unwrap();
+            if (res?.count) {
+                toast.success("Schedules created successfully");
+                setOpen(false);
+            };
+        } catch (err: any) {
+            toast.error(err.message);
+            console.error(err.message);
+        };
+    };
 
     return (
         <Modal title="Create schedules" open={open} setOpen={setOpen}>
@@ -54,7 +69,7 @@ const DoctorSchedulesModal = ({ open, setOpen }: TDoctorSchedulesModalProps) => 
                 <LoadingButton
                     size="small"
                     onClick={handleSubmit}
-                    loading={false}
+                    loading={isDoctorSchedulesCreateLoading}
                     loadingIndicator="Submitting…"
                     variant="outlined"
                 >
