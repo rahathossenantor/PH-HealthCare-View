@@ -34,9 +34,11 @@ const Sidebar = () => {
                 </Stack>
             </Box>
             <List>
-                {generateSidebarItems(userRole as TRole).map((sidebarItem, idx) => (
-                    <SidebarItem key={idx} idx={idx} item={sidebarItem} />
-                ))}
+                {
+                    generateSidebarItems(userRole as TRole).map((sidebarItem, idx) => (
+                        <SidebarItem key={idx} idx={idx} item={sidebarItem} />
+                    ))
+                }
             </List>
         </>
     );

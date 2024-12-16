@@ -6,6 +6,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ReviewsIcon from "@mui/icons-material/Reviews";
+import PersonIcon from "@mui/icons-material/Person";
 import TryIcon from "@mui/icons-material/Try";
 
 export type TMenuItem = {
@@ -17,7 +18,13 @@ export type TMenuItem = {
 };
 
 const generateSidebarItems = (role: TRole): TMenuItem[] => {
-    const menuItems: TMenuItem[] = [];
+    const menuItems: TMenuItem[] = [
+        {
+            title: "Profile",
+            path: `${role}/profile`,
+            icon: PersonIcon,
+        }
+    ];
 
     switch (role) {
         case "super_admin":
@@ -31,7 +38,7 @@ const generateSidebarItems = (role: TRole): TMenuItem[] => {
                     title: "Manage Users",
                     path: `${role}/manage-users`,
                     icon: GroupIcon,
-                }
+                },
             );
             break;
 

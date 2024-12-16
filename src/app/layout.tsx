@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <Providers>
       <html lang="en">
-        <body className={roboto.className} style={{ backgroundColor: "gray" }}>
+        <body className={roboto.className}>
           <AppRouterCacheProvider>
             <>
               <Toaster position="top-center" />
