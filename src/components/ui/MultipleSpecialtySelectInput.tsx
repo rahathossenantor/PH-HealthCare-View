@@ -48,7 +48,7 @@ const MultipleSpecialtySelectInput = ({
             <FormControl sx={{ width: "100%" }}>
                 <InputLabel
                     id="demo-multiple-chip-label"
-                    sx={{ mt: selectedIds.length > 0 ? 0 : -1 }}
+                    sx={{ mt: selectedIds?.length > 0 ? 0 : -1 }}
                 >
                     Specialties
                 </InputLabel>

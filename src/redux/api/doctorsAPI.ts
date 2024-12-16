@@ -18,10 +18,6 @@ const doctorsApi = baseApi.injectEndpoints({
                 method: "GET",
                 params: args
             }),
-            // transformResponse: (response: TDoctor, meta: TMeta) => ({
-            //     doctors: response,
-            //     meta
-            // }),
             providesTags: ["doctors"],
         }),
         getSingleDoctor: build.query({
@@ -36,7 +32,7 @@ const doctorsApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 data,
             }),
-            invalidatesTags: ["doctors"],
+            invalidatesTags: ["doctors", "me"],
         }),
         deleteDoctor: build.mutation({
             query: (id) => ({
