@@ -9,9 +9,19 @@ const usersApi = baseApi.injectEndpoints({
             }),
             providesTags: ["me"],
         }),
+        updateMe: build.mutation({
+            query: (data: any) => ({
+                url: "/users/update-me",
+                method: "PATCH",
+                contentType: "multipart/form-data",
+                data
+            }),
+            invalidatesTags: ["me"],
+        }),
     }),
 });
 
 export const {
-    useGetMeQuery
+    useGetMeQuery,
+    useUpdateMeMutation,
 } = usersApi;

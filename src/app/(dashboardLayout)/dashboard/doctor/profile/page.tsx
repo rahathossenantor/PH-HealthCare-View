@@ -1,13 +1,26 @@
 "use client";
 
 import DoctorInformation from "@/components/sections/DoctorInformation";
-import { useGetMeQuery } from "@/redux/api/usersAPI";
+import AutoFileUploader from "@/components/ui/AutoFileUploader";
+import { useGetMeQuery, useUpdateMeMutation } from "@/redux/api/usersAPI";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Box, Container } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Image from "next/image";
 
 const Profile = () => {
     const { data, isLoading } = useGetMeQuery({});
+
+    const [updateMe, { isLoading: updateMeLoading }] =
+        useUpdateMeMutation();
+
+    const fileUploadHandler = (file: File) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("data", JSON.stringify({}));
+
+        updateMe(formData);
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -20,8 +33,8 @@ const Profile = () => {
                     <Box
                         sx={{
                             height: 300,
-                            width: '100%',
-                            overflow: 'hidden',
+                            width: "100%",
+                            overflow: "hidden",
                             borderRadius: 1,
                         }}
                     >
@@ -34,17 +47,17 @@ const Profile = () => {
                     </Box>
 
                     {
-                        // updating ? (
-                        //     <p>Uploading...</p>
-                        // ) : (
-                        //     <AutoFileUploader
-                        //         name='file'
-                        //         label='Choose Your Profile Photo'
-                        //         icon={<CloudUploadIcon />}
-                        //         onFileUpload={fileUploadHandler}
-                        //         variant='text'
-                        //     />
-                        // )
+                        updateMeLoading ? (
+                            <p>Uploading...</p>
+                        ) : (
+                            <AutoFileUploader
+                                name="file"
+                                label="Upload profile photo"
+                                icon={<CloudUploadIcon />}
+                                onFileUpload={fileUploadHandler}
+                                variant="text"
+                            />
+                        )
                     }
                 </Grid>
                 <Grid xs={12} md={8}>
