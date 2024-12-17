@@ -11,9 +11,10 @@ const doctorSchedulesApi = baseApi.injectEndpoints({
             invalidatesTags: ["doctorSchedules"],
         }),
         getDoctorsAllSchedules: build.query({
-            query: () => ({
+            query: (args: Record<string, any>) => ({
                 url: "/doctor-schedules/doctor-schedules",
                 method: "GET",
+                params: args
             }),
             providesTags: ["doctorSchedules"],
         }),

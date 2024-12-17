@@ -3,7 +3,7 @@
 import DoctorSchedulesModal from "@/components/ui/DoctorSchedulesModal";
 import { useGetDoctorsAllSchedulesQuery } from "@/redux/api/doctorSchedulesAPI";
 import dateFormatter from "@/utils/dateFormatter";
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, Button, IconButton, Pagination } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
@@ -12,12 +12,27 @@ import { useEffect, useState } from "react";
 const Schedules = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [doctorSchedules, setDoctorSchedules] = useState<any>([]);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(3);
 
-    const { data, isLoading } = useGetDoctorsAllSchedulesQuery({});
-    console.log(data);
+    const query: Record<string, any> = {};
+    query["page"] = page;
+    query["limit"] = limit;
+
+    const { data, isLoading } = useGetDoctorsAllSchedulesQuery(query);
+
+    let pageCount: number;
+
+    if (data?.meta?.total) {
+        pageCount = Math.ceil(data?.meta.total / limit);
+    };
+
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    };
 
     useEffect(() => {
-        const structuredSchedules = data?.map((schedule: any) => ({
+        const structuredSchedules = data?.data?.map((schedule: any) => ({
             id: schedule.schedule.id,
             startDate: dateFormatter(schedule.schedule.startDateTime),
             endDate: dateFormatter(schedule.schedule.endDateTime),
@@ -60,11 +75,34 @@ const Schedules = () => {
             />
             {
                 !isLoading
-                    ? (<DataGrid
-                        rows={doctorSchedules}
-                        columns={columns}
-                        sx={{ border: 0, margin: 4 }}
-                    />)
+                    ? (
+                        <DataGrid
+                            hideFooterPagination
+                            rows={doctorSchedules}
+                            columns={columns}
+                            sx={{ border: 0, margin: 4 }}
+                            slots={{
+                                footer: () => {
+                                    return (
+                                        <Box
+                                            sx={{
+                                                mb: 2,
+                                                display: "flex",
+                                                justifyContent: "center",
+                                            }}
+                                        >
+                                            <Pagination
+                                                color="primary"
+                                                count={pageCount}
+                                                page={page}
+                                                onChange={handleChange}
+                                            />
+                                        </Box>
+                                    );
+                                },
+                            }}
+                        />
+                    )
                     : (
                         <h1>Loading...!</h1>
                     )
