@@ -2,6 +2,8 @@
 
 import { baseServerApiUrl } from "@/constants/global.constants";
 import { FieldValues } from "react-hook-form";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const loginUser = async (payload: FieldValues) => {
     try {
@@ -13,6 +15,12 @@ const loginUser = async (payload: FieldValues) => {
             // cache: "no-store"
         });
         const data = await res.json();
+
+        if (data?.data?.accessToken) {
+            cookies().set("accessToken", data?.data?.accessToken);
+            redirect("/dashboard");
+        };
+
         return data;
     } catch (err: any) {
         console.error(err.message);

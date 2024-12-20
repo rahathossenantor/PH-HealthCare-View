@@ -26,11 +26,11 @@ const Login = () => {
         const res = await loginUser(values);
 
         if (res?.data?.accessToken) {
-            storeUserToken(res.data.accessToken);
-            toast.success(res.message);
-            router.push("/dashboard");
+            storeUserToken(res?.data?.accessToken);
+            toast.success(res?.message);
+            // router.push("/dashboard");
         } else {
-            toast.error(res.message);
+            toast.error(res?.message);
         };
     };
 
