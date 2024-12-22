@@ -1,6 +1,8 @@
 import axiosInstance from "@/axios/axiosInstance";
 import decodeJwtToken from "@/utils/decodeJwtToken";
 import { getFromLocalStorage, removeFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
+import { removeCookies } from "./actions/cookies.services";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export const storeUserToken = (token: string) => {
     return setToLocalStorage("accessToken", token);
@@ -23,6 +25,13 @@ export const clearUser = () => {
 
 export const isLoggedIn = () => {
     return !!getFromLocalStorage("accessToken");
+};
+
+export const logoutUser = (router: AppRouterInstance) => {
+    clearUser();
+    removeCookies(["accessToken", "refreshToken"]);
+    router.refresh();
+    router.push("/login");
 };
 
 export const getRefreshToken = async () => {

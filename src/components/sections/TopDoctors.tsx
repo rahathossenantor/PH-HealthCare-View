@@ -87,7 +87,7 @@ const TopDoctors = async () => {
             <Container sx={{ margin: "30px auto", textAlign: "center" }}>
                 <Grid container spacing={2}>
                     {
-                        doctors.map((doctor: any) => (
+                        doctors?.map((doctor: any) => (
                             <Grid
                                 key={doctor.id}
                                 item

@@ -1,4 +1,4 @@
-import { clearUser, getUser } from "@/services/auth.services";
+import { getUser, logoutUser } from "@/services/auth.services";
 import { Button } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,8 +12,7 @@ const AuthButton = () => {
             {
                 user?.email
                     ? <Button color="error" onClick={() => {
-                        clearUser();
-                        router.refresh();
+                        logoutUser(router);
                     }}>Logout</Button>
                     : <Button component={Link} href="/login">Login</Button>
             }

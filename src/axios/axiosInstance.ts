@@ -1,7 +1,7 @@
+import { setCookie } from "@/services/actions/cookies.services";
 import { getRefreshToken } from "@/services/auth.services";
 import { getFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
 import axios from "axios";
-import { cookies } from "next/headers";
 
 const axiosInstance = axios.create();
 
@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use(
 
             config.headers["Authorization"] = accessToken;
             setToLocalStorage("accessToken", accessToken);
-            cookies().set("accessToken", accessToken);
+            setCookie(accessToken);
 
             return axiosInstance(config);
         } else {

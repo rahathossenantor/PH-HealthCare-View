@@ -2,8 +2,7 @@
 
 import { baseServerApiUrl } from "@/constants/global.constants";
 import { FieldValues } from "react-hook-form";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { setCookie } from "./cookies.services";
 
 const loginUser = async (payload: FieldValues) => {
     try {
@@ -17,8 +16,7 @@ const loginUser = async (payload: FieldValues) => {
         const data = await res.json();
 
         if (data?.data?.accessToken) {
-            cookies().set("accessToken", data?.data?.accessToken);
-            redirect("/dashboard");
+            setCookie(data?.data?.accessToken, { redirectUrl: "/dashboard" });
         };
 
         return data;
