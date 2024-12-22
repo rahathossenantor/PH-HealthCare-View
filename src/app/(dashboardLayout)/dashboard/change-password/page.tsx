@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import FormWrapper from "@/components/sections/FormWrapper";
 import InputWrapper from "@/components/sections/InputWrapper";
+import { useChangePasswordMutation } from "@/redux/api/authAPI";
 
 const validationSchema = z.object({
     oldPassword: z.string().min(5, "Must be at least 5 characters long!"),
@@ -17,14 +18,21 @@ const validationSchema = z.object({
 
 const ChangePassword = () => {
     const router = useRouter();
+    const [changePassword] = useChangePasswordMutation();
 
     const onSubmit = async (values: FieldValues) => {
         try {
-            console.log(values);
-        } catch (error) {
-            toast.error("Incorrect old password!");
+            const res = await changePassword(values);
+            if (res?.data?.success) {
+                toast.success(res?.data?.message);
+                router.push("/dashboard/profile");
+            } else {
+                toast.error(res?.data?.message);
+            };
+        } catch (error: any) {
+            toast.error(error.message);
             console.error(error);
-        }
+        };
     };
 
     return (

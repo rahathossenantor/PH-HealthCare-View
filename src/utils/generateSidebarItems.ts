@@ -8,6 +8,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import PersonIcon from "@mui/icons-material/Person";
 import TryIcon from "@mui/icons-material/Try";
+import KeyIcon from "@mui/icons-material/Key";
 
 export type TMenuItem = {
     path: string;
@@ -23,6 +24,11 @@ const generateSidebarItems = (role: TRole): TMenuItem[] => {
             title: "Profile",
             path: `${role}/profile`,
             icon: PersonIcon,
+        },
+        {
+            title: "Change Password",
+            path: `change-password`,
+            icon: KeyIcon,
         }
     ];
 
