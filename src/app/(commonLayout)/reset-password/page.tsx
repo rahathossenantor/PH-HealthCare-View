@@ -9,15 +9,24 @@ import { toast } from 'sonner';
 import CheckIcon from '@mui/icons-material/Check';
 import FormWrapper from '@/components/sections/FormWrapper';
 import InputWrapper from '@/components/sections/InputWrapper';
+import { useForgotPasswordMutation } from '@/redux/api/authAPI';
 
 const validationSchema = z.object({
     email: z.string().email('Please enter a valid email address!'),
 });
 
 const ForgotPassword = () => {
+    const [forgotPassword, { isSuccess }] = useForgotPasswordMutation();
+
     const onSubmit = async (values: FieldValues) => {
         try {
+            const res = await forgotPassword(values);
 
+            if ('data' in res && res.data.status === 200) {
+                toast.success('Check your email for reset link');
+            } else {
+                throw new Error('Something Went Wrong!, Try Again.');
+            };
         } catch (error) {
             console.log(error);
         };
@@ -57,27 +66,43 @@ const ForgotPassword = () => {
                     </Typography>
                 </Stack>
 
-                <FormWrapper
-                    onSubmit={onSubmit}
-                    defaultValues={{ email: '' }}
-                    resolver={zodResolver(validationSchema)}
-                >
-                    <Grid>
-                        <Grid item xs={12} sm={12} md={6}>
-                            <InputWrapper
-                                name='email'
-                                type='email'
-                                label='Your email'
-                                sx={{ mb: 2 }}
-                                fullWidth
-                            />
-                        </Grid>
-                    </Grid>
+                {
+                    isSuccess && (
+                        <Alert
+                            icon={<CheckIcon fontSize='inherit' />}
+                            severity='success'
+                        >
+                            An email with reset password link was sent to your email
+                        </Alert>
+                    )
+                }
 
-                    <Button type='submit' sx={{ width: '100%', my: 2 }}>
-                        forgot Password
-                    </Button>
-                </FormWrapper>
+                {
+                    !isSuccess && (
+                        <FormWrapper
+                            onSubmit={onSubmit}
+                            defaultValues={{ email: '' }}
+                            resolver={zodResolver(validationSchema)}
+                        >
+                            <Grid>
+                                <Grid item xs={12} sm={12} md={6}>
+                                    <InputWrapper
+                                        name='email'
+                                        type='email'
+                                        label='Your email'
+                                        sx={{ mb: 2 }}
+                                        fullWidth
+                                    />
+                                </Grid>
+                            </Grid>
+
+                            <Button type='submit' sx={{ width: '100%', my: 2 }}>
+                                forgot Password
+                            </Button>
+                        </FormWrapper>
+                    )
+                }
+
             </Box>
         </Stack>
     );
