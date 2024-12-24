@@ -15,37 +15,39 @@ const roleBasedPrivateRoutes = {
 type TRole = keyof typeof roleBasedPrivateRoutes;
 
 export function middleware(request: NextRequest) {
-    const { pathname } = request.nextUrl;
+    // const { pathname } = request.nextUrl;
 
-    const accessToken = cookies().get("accessToken")?.value;
+    // const accessToken = cookies().get("accessToken")?.value;
 
-    if (!accessToken) {
-        if (authRoutes.includes(pathname)) {
-            return NextResponse.next();
-        };
-        return NextResponse.redirect(new URL("/login", request.url));
-    };
+    // if (!accessToken) {
+    //     if (authRoutes.includes(pathname)) {
+    //         return NextResponse.next();
+    //     } else {
+    //         return NextResponse.redirect(new URL("/login", request.url));
+    //     }
+    // };
 
-    if (accessToken && commonPrivateRoutes.includes(pathname)) {
-        return NextResponse.next();
-    };
+    // if (accessToken && commonPrivateRoutes.includes(pathname)) {
+    //     return NextResponse.next();
+    // };
 
-    let decodedData = null;
-    if (accessToken) {
-        decodedData = decodeJwtToken(accessToken) as any;
-    };
-    const role = decodedData?.role;
+    // let decodedData = null;
+    // if (accessToken) {
+    //     decodedData = decodeJwtToken(accessToken) as any;
+    // };
+    // const role = decodedData?.role;
 
-    if (role && roleBasedPrivateRoutes[role as TRole]) {
-        const routes = roleBasedPrivateRoutes[role as TRole];
-        if (routes.some((route) => pathname.match(route))) {
-            return NextResponse.next();
-        };
-    };
+    // if (role && roleBasedPrivateRoutes[role as TRole]) {
+    //     const routes = roleBasedPrivateRoutes[role as TRole];
+    //     if (routes.some((route) => pathname.match(route))) {
+    //         return NextResponse.next();
+    //     };
+    // };
 
     return NextResponse.redirect(new URL("/", request.url));
 };
 
 export const config = {
-    matcher: ["/login", "/register", "/dashboard/:path*"],
+    matcher: [],
+    // matcher: ["/login", "/register", "/dashboard/:path*"],
 };

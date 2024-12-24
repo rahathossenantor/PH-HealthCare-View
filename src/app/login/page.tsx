@@ -13,6 +13,7 @@ import FormWrapper from "@/components/sections/FormWrapper";
 import InputWrapper from "@/components/sections/InputWrapper";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { setCookie } from "@/services/actions/cookies.services";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address!"),
@@ -20,15 +21,15 @@ const loginSchema = z.object({
 });
 
 const Login = () => {
-    const router = useRouter();
 
     const onSubmit = async (values: FieldValues) => {
         const res = await loginUser(values);
+        const needsPasswordChange = res?.data?.needsPasswordChange;
 
         if (res?.data?.accessToken) {
-            storeUserToken(res?.data?.accessToken);
             toast.success(res?.message);
-            // router.push("/dashboard");
+            storeUserToken(res?.data?.accessToken);
+            setCookie(res?.data?.accessToken, { redirectUrl: "/dashboard", needsPasswordChange });
         } else {
             toast.error(res?.message);
         };

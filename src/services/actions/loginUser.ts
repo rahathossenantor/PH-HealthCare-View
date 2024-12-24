@@ -2,7 +2,6 @@
 
 import { baseServerApiUrl } from "@/constants/global.constants";
 import { FieldValues } from "react-hook-form";
-import { setCookie } from "./cookies.services";
 
 const loginUser = async (payload: FieldValues) => {
     try {
@@ -14,11 +13,6 @@ const loginUser = async (payload: FieldValues) => {
             // cache: "no-store"
         });
         const data = await res.json();
-
-        if (data?.data?.accessToken) {
-            setCookie(data?.data?.accessToken, { redirectUrl: "/dashboard" });
-        };
-
         return data;
     } catch (err: any) {
         console.error(err.message);

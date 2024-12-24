@@ -6,6 +6,10 @@ import { redirect } from "next/navigation";
 export const setCookie = (token: string, options?: Record<string, any>) => {
     cookies().set("accessToken", token);
 
+    if (options?.needsPasswordChange) {
+        redirect("/dashboard/change-password");
+    };
+
     if (options?.redirectUrl) {
         redirect(options?.redirectUrl);
     };
