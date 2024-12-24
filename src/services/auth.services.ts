@@ -36,7 +36,7 @@ export const logoutUser = (router: AppRouterInstance) => {
 
 export const getRefreshToken = async () => {
     const res = await axiosInstance({
-        url: `https://ph-heathcare-core.vercel.app/api/v1/auth/refresh-token`,
+        url: `http://localhost:5000/api/v1/auth/refresh-token`,
         method: "POST",
         headers: {
             "Content-Type": "application/json",

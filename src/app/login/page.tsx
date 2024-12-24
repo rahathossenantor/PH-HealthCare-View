@@ -88,7 +88,7 @@ const Login = () => {
                             </Grid>
                         </Grid>
                         <Stack direction="row" justifyContent="space-between">
-                            <Typography component="p" sx={{ mt: 2 }}>Forgot password? <Link href="/reset-password" className="text-blue-600">Reset Here</Link> </Typography>
+                            <Typography component="p" sx={{ mt: 2 }}>Forgot password? <Link href="/forget-password" className="text-blue-600">Reset Here</Link> </Typography>
                             <Typography component="p" sx={{ mt: 2 }}>Don&apos;t have an account? <Link href="/register" className="text-blue-600">Register</Link> </Typography>
                         </Stack>
                     </FormWrapper>
