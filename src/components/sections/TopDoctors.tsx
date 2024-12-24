@@ -1,9 +1,10 @@
-import { Box, Button, Card, CardActions, CardContent, Container, Grid, Grid2, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, Container, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import WorkIcon from "@mui/icons-material/Work";
 import SchoolIcon from "@mui/icons-material/School";
 import PlaceIcon from "@mui/icons-material/Place";
 import { baseServerApiUrl } from "@/constants/global.constants";
+import Link from "next/link";
 
 const doctors = [
     {
@@ -120,7 +121,14 @@ const TopDoctors = async () => {
                         ))
                     }
                 </Grid>
-                <Button variant="contained" sx={{ margin: "10px 0" }}>View All Doctors</Button>
+                <Button
+                    variant="contained"
+                    sx={{ margin: "10px 0" }}
+                    LinkComponent={Link}
+                    href="/doctors"
+                >
+                    View All Doctors
+                </Button>
             </Container>
         </Box>
     );
