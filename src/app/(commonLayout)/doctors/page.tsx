@@ -2,6 +2,7 @@
 
 import DoctorCard from "@/components/sections/DoctorCard";
 import DashedLine from "@/components/ui/DashedLine";
+import ScrollCategory from "@/components/ui/ScrollCategory";
 import { useGetAllDoctorsQuery } from "@/redux/api/doctorsAPI";
 import { Box, Container } from "@mui/material";
 
@@ -11,6 +12,7 @@ const Doctors = () => {
     return (
         <Container>
             <DashedLine />
+            <ScrollCategory />
             <Box sx={{ mt: 2, p: 3, bgcolor: "secondary.light" }}>
                 {
                     data?.map((doctor: any, index: number) => (
