@@ -2,14 +2,17 @@
 
 import { useGetAllSpecialtiesQuery } from "@/redux/api/specialtiesAPI";
 import { Box, Tab, Tabs } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const ScrollCategory = () => {
+const ScrollCategory = ({ specialty }: any) => {
+    const router = useRouter();
     const { data } = useGetAllSpecialtiesQuery({});
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(specialty || "");
 
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
+    const handleChange = (_event: React.SyntheticEvent, specialty: string) => {
+        setValue(specialty);
+        router.push(`/doctors?specialty=${specialty}`);
     };
 
     return (
@@ -21,9 +24,16 @@ const ScrollCategory = () => {
                 scrollButtons="auto"
                 aria-label="scrollable auto tabs example"
             >
-                {data?.map((item: any) => (
-                    <Tab key={item.id} label={item.title} value={item.title} />
-                ))}
+                {
+                    data?.map((item: any) => (
+                        <Tab
+                            key={item.id}
+                            label={item.title}
+                            value={item.title}
+                            sx={{ fontWeight: "bold" }}
+                        />
+                    ))
+                }
             </Tabs>
         </Box>
     );
