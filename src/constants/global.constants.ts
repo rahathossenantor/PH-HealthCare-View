@@ -1,2 +1,2 @@
-export const baseServerApiUrl: string = process.env.NEXT_PUBLIC_BASE_URL as string;
+export const baseServerApiUrl = "http://localhost:5000/api/v1";
 export const genders = ["MALE", "FEMALE"];

@@ -3,6 +3,7 @@ import decodeJwtToken from "@/utils/decodeJwtToken";
 import { getFromLocalStorage, removeFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
 import { removeCookies } from "./actions/cookies.services";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { baseServerApiUrl } from "@/constants/global.constants";
 
 export const storeUserToken = (token: string) => {
     return setToLocalStorage("accessToken", token);
@@ -36,7 +37,7 @@ export const logoutUser = (router: AppRouterInstance) => {
 
 export const getRefreshToken = async () => {
     const res = await axiosInstance({
-        url: `http://localhost:5000/api/v1/auth/refresh-token`,
+        url: `${baseServerApiUrl}/auth/refresh-token`,
         method: "POST",
         headers: {
             "Content-Type": "application/json",

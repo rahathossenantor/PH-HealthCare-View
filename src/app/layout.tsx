@@ -5,7 +5,6 @@ import "./globals.css";
 import Providers from "@/lib/Providers/Providers";
 import { Toaster } from "sonner";
 
-// const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export const metadata: Metadata = {
@@ -13,11 +12,11 @@ export const metadata: Metadata = {
   description: "PH HealthCare is a healthcare management system",
 };
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: {
   children: React.ReactNode
-}) {
+}) => {
   return (
     <Providers>
       <html lang="en">
@@ -33,3 +32,5 @@ export default function RootLayout({
     </Providers>
   )
 };
+
+export default RootLayout;

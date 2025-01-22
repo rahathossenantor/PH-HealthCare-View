@@ -33,24 +33,30 @@ axiosInstance.interceptors.response.use(
     async function (error) {
         const config = error.config;
 
-        if (error?.response?.status === 500 && !config.sent) {
-            config.sent = true;
-            const res = await getRefreshToken();
-            const accessToken = res?.data?.accessToken;
-
-            config.headers["Authorization"] = accessToken;
-            setToLocalStorage("accessToken", accessToken);
-            setCookie(accessToken);
-
-            return axiosInstance(config);
-        } else {
-            const res = {
-                statusCode: error?.response?.statusCode || 500,
-                message: error?.response?.message || "Something went wrong!",
-                error: error?.response?.data?.error || null,
-            };
-            return res;
+        const res = {
+            statusCode: error?.response?.statusCode || 500,
+            message: error?.response?.message || "Something went wrong!",
+            error: error?.response?.data?.error || null,
         };
+        return res;
+        // if (error?.response?.status === 500 && !config.sent) {
+        //     config.sent = true;
+        //     const res = await getRefreshToken();
+        //     const accessToken = res?.data?.accessToken;
+
+        //     config.headers["Authorization"] = accessToken;
+        //     setToLocalStorage("accessToken", accessToken);
+        //     setCookie(accessToken);
+
+        //     return axiosInstance(config);
+        // } else {
+        //     const res = {
+        //         statusCode: error?.response?.statusCode || 500,
+        //         message: error?.response?.message || "Something went wrong!",
+        //         error: error?.response?.data?.error || null,
+        //     };
+        //     return res;
+        // };
     }
 );
 
