@@ -11,6 +11,7 @@ import { useState } from "react";
 import { getTimeIn12HourFormat } from "../ui/MultipleSelectInput";
 import { useRouter } from "next/navigation";
 import { useCreateAppointmentMutation } from "@/redux/api/appointmentAPI";
+import { useInitialPaymentMutation } from "@/redux/api/paymentAPI";
 dayjs.extend(utc);
 
 const DoctorScheduleSlots = ({ id }: { id: string }) => {
@@ -49,6 +50,7 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
     );
 
     const [createAppointment] = useCreateAppointmentMutation();
+    const [initialPayment] = useInitialPaymentMutation();
 
     const handleBookAppointment = async () => {
         try {
@@ -57,6 +59,14 @@ const DoctorScheduleSlots = ({ id }: { id: string }) => {
                     doctorId: id,
                     scheduleId
                 }).unwrap();
+
+                if (res.id) {
+                    const response = await initialPayment(res.id).unwrap();
+
+                    if (response.paymentUrl) {
+                        router.push(response.paymentUrl);
+                    };
+                };
             };
         } catch (error) {
             console.error(error);
