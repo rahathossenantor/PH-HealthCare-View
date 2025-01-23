@@ -19,7 +19,7 @@ const MenuProps = {
     },
 };
 
-const getTimeIn12HourFormat = (dateTimeString: string): string => {
+export const getTimeIn12HourFormat = (dateTimeString: string): string => {
     const date: Date = new Date(dateTimeString);
     const hours: number = date.getHours();
     const minutes: number = date.getMinutes();

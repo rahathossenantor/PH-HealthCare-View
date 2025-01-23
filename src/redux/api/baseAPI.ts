@@ -11,6 +11,7 @@ const baseApi = createApi({
         "doctors",
         "schedules",
         "doctorSchedules",
+        "appointment",
         "me",
     ],
 });

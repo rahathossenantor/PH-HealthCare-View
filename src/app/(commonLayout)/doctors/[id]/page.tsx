@@ -1,5 +1,6 @@
 "use client";
 
+import DoctorScheduleSlots from "@/components/sections/DoctorScheduleSlots";
 import DashedLine from "@/components/ui/DashedLine";
 import { useGetSingleDoctorQuery } from "@/redux/api/doctorsAPI";
 import { Box, Chip, Container, Stack, Typography } from "@mui/material";
@@ -87,7 +88,7 @@ const DoctorDetails = ({ params: { id } }: TDoctorDetailsPropTypes) => {
                                         </Typography>
                                         <Box>
                                             {
-                                                specialties.map((sp: any) => (
+                                                specialties?.map((sp: any) => (
                                                     <Chip
                                                         key={sp}
                                                         label={sp}
@@ -162,6 +163,7 @@ const DoctorDetails = ({ params: { id } }: TDoctorDetailsPropTypes) => {
                     </Stack>
                 </Box>
             </Box>
+            <DoctorScheduleSlots id={doctor?.id} />
         </Container>
     );
 };
