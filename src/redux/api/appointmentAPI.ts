@@ -10,9 +10,17 @@ export const appointmentApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["appointment"],
         }),
+        getMyAppointments: build.query({
+            query: (args: Record<string, any>) => ({
+                url: "/appointments/my-appointments",
+                method: "GET",
+                params: args,
+            })
+        }),
     }),
 });
 
 export const {
     useCreateAppointmentMutation,
+    useGetMyAppointmentsQuery,
 } = appointmentApi;
