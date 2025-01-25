@@ -97,7 +97,7 @@ const generateSidebarItems = (role: TRole): TMenuItem[] => {
                 },
                 {
                     title: "Appointments",
-                    path: `${role}/appointment`,
+                    path: `${role}/appointments`,
                     icon: CalendarMonthIcon,
                 }
             );
