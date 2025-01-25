@@ -1,7 +1,7 @@
 "use client";
 
 import ScheduleModal from "@/components/ui/ScheduleModal";
-import { useGetAllSchedulesQuery } from "@/redux/api/schedulesAPI";
+import { useDeleteSingleScheduleMutation, useGetAllSchedulesQuery } from "@/redux/api/schedulesAPI";
 import dateFormatter from "@/utils/dateFormatter";
 import { Box, Button, IconButton } from "@mui/material";
 import dayjs from "dayjs";
@@ -15,9 +15,14 @@ const Schedules = () => {
     const [schedules, setSchedules] = useState<any>([]);
 
     const { data, isLoading } = useGetAllSchedulesQuery({});
+    const [deleteSingleSchedule] = useDeleteSingleScheduleMutation();
 
     const handleDelete = async (id: string) => {
         try {
+            const res = await deleteSingleSchedule(id).unwrap();
+            if (res?.id) {
+                toast.success("Schedule deleted successfully");
+            };
         } catch (err: any) {
             toast.error(err.message);
             console.error(err.message);
