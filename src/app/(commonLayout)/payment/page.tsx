@@ -11,7 +11,7 @@ interface PropTypes {
 }
 
 const PaymentStatusPage = ({ searchParams }: PropTypes) => {
-    const status = searchParams.status; // could be success, cancel, failed
+    const status = searchParams.status;
 
     let icon;
     let title;
@@ -25,7 +25,7 @@ const PaymentStatusPage = ({ searchParams }: PropTypes) => {
             icon = <CancelIcon sx={{ fontSize: "90px", color: "#FF0000" }} />;
             title = "Payment Cancelled";
             break;
-        case "failed":
+        case "fail":
             icon = <ErrorIcon sx={{ fontSize: "90px", color: "#FF0000" }} />;
             title = "Payment Failed";
             break;

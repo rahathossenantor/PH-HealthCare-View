@@ -4,7 +4,7 @@ const paymentApi = baseApi.injectEndpoints({
     endpoints: (build) => ({
         initialPayment: build.mutation({
             query: (id: string) => ({
-                url: `/payment/init/${id}`,
+                url: `/payments/initialize-payment/${id}`,
                 method: "POST",
             }),
             invalidatesTags: ["payment"],
